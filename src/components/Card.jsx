@@ -1,7 +1,20 @@
-export default function Card({ imageUrl }) {
+export default function Card({ imageUrl, shuffle, addScore }) {
   return (
-    <div className="">
-      {imageUrl ? <img src={imageUrl} alt="" /> : <p>Failed to load image</p>}
+    <div
+      onClick={() => {
+        shuffle();
+        addScore();
+      }}
+    >
+      {imageUrl ? (
+        <img
+          src={imageUrl}
+          alt=""
+          className="object-cover w-56 aspect-square overflow-hidden"
+        />
+      ) : (
+        <p>Failed to load image</p>
+      )}
     </div>
   );
 }
