@@ -12,11 +12,26 @@ function Game() {
     const URL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=cat&limit=12`;
     fetch(URL)
       .then((response) => response.json())
-      .then((card) => {
-        const newImages = card.data.map((item) => ({
-          id: item.id,
-          url: item.images.fixed_height_still.url,
-        }));
+      .then((cards) => {
+        const titleCounts = {};
+        const newImages = cards.data.map((item) => {
+          let baseTitle = item.title
+            ? item.title.replace(/\s*GIF\s*$/i, "")
+            : "Cat";
+
+          if (titleCounts[baseTitle]) {
+            titleCounts[baseTitle]++;
+            baseTitle = `${baseTitle} (${titleCounts[baseTitle]})`;
+          } else {
+            titleCounts[baseTitle] = 1;
+          }
+
+          return {
+            id: item.id,
+            url: item.images.fixed_height_still.url,
+            title: baseTitle,
+          };
+        });
         setImagesData(newImages);
       })
       .catch((error) => {
@@ -55,21 +70,28 @@ function Game() {
   }
 
   return (
-    <main className="flex flex-col h-screen w-full justify-center items-center">
-      <h1>Game</h1>
-      <p>Score: {score}</p>
-      <p>Best Score: {bestScore}</p>
-      <div className="grid grid-cols-6 gap-12">
-        {imagesData.map((image) => (
-          <Card
-            key={image.id}
-            imageUrl={image.url}
-            shuffle={shuffleImages}
-            addScore={() => addScore(image)}
-          />
-        ))}
-      </div>
-    </main>
+    <>
+      <header className="flex justify-between items-center w-full py-4 px-10">
+        <h1 className="text-4xl font-bold">Memory Card Game</h1>
+        <div>
+          <p>Score: {score}</p>
+          <p>Best Score: {bestScore}</p>
+        </div>
+      </header>
+      <main className="flex flex-col h-screen w-full justify-center items-center">
+        <div className="grid grid-cols-6 gap-12">
+          {imagesData.map((image) => (
+            <Card
+              key={image.id}
+              imageUrl={image.url}
+              imageTitle={image.title}
+              shuffle={shuffleImages}
+              addScore={() => addScore(image)}
+            />
+          ))}
+        </div>
+      </main>
+    </>
   );
 }
 

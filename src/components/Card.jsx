@@ -1,4 +1,4 @@
-export default function Card({ imageUrl, shuffle, addScore }) {
+export default function Card({ imageUrl, imageTitle, shuffle, addScore }) {
   return (
     <div
       onClick={() => {
@@ -7,11 +7,14 @@ export default function Card({ imageUrl, shuffle, addScore }) {
       }}
     >
       {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt=""
-          className="object-cover w-56 aspect-square overflow-hidden"
-        />
+        <div className="flex flex-col gap-4 items-center justify-center h-full">
+          <img
+            src={imageUrl}
+            alt=""
+            className="object-cover w-56 aspect-square overflow-hidden"
+          />
+          <p>{imageTitle}</p>
+        </div>
       ) : (
         <p>Failed to load image</p>
       )}
