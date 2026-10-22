@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "./components/Card";
+import TurnIndicator from "./components/TurnIndicator";
+import { Medal, Zap } from "lucide-react";
 
 function Game() {
   const [imagesData, setImagesData] = useState([]);
@@ -70,16 +72,57 @@ function Game() {
   }
 
   return (
-    <>
-      <header className="flex justify-between items-center w-full py-4 px-10">
-        <h1 className="text-4xl font-bold">Memory Card Game</h1>
-        <div>
-          <p>Score: {score}</p>
-          <p>Best Score: {bestScore}</p>
-        </div>
-      </header>
-      <main className="flex flex-col h-screen w-full justify-center items-center">
-        <div className="grid grid-cols-6 gap-12">
+    <div className="w-full bg-background relative z-10 flex flex-col justify-center min-h-screen">
+      <div className="flex flex-col w-full max-w-7xl mx-auto px-margin-mobile md:px-margin py-space-md md:py-space-lg select-none">
+        <header className="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-lg">
+          <div className="flex flex-col max-w-lg">
+            <h1 className="font-display-lg text-headline-lg md:text-display-lg text-primary tracking-tight leading-none mb-2">
+              Memory Spark
+            </h1>
+            <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Select every unique entity without clicking the same card twice.
+              The matrix scrambles spatial coordinates after every neural
+              imprint.
+            </p>
+          </div>
+          <div className="flex items-center gap-space-sm sm:gap-space-md self-start md:self-end">
+            <div className="bg-surface-container-high/90 px-space-md py-space-sm rounded-xl shadow-md flex flex-col min-w-27.5">
+              <div className="flex items-center justify-between text-on-surface-variant">
+                <span className="font-label-md text-label-md uppercase">
+                  Current
+                </span>
+                <Zap size={16} />
+              </div>
+              <div className="flex items-baseline gap-1 mt-0.5">
+                <span className="font-stat-counter text-stat-counter text-primary transition-all duration-300">
+                  {score}
+                </span>
+                <span className="font-label-md text-label-md text-outline">
+                  / 12
+                </span>
+              </div>
+            </div>
+
+            <div className="bg-surface-container-high/90 px-space-md py-space-sm rounded-xl shadow-md flex flex-col min-w-27.5">
+              <div className="flex items-center justify-between text-on-surface-variant">
+                <span className="font-label-md text-label-md uppercase">
+                  Record
+                </span>
+                <Medal size={16} className="text-tertiary" />
+              </div>
+              <div className="flex items-baseline gap-1 mt-0.5">
+                <span className="font-stat-counter text-stat-counter text-tertiary">
+                  {bestScore}
+                </span>
+                <span className="font-label-md text-label-md text-outline">
+                  MAX
+                </span>
+              </div>
+            </div>
+          </div>
+        </header>
+        <TurnIndicator score={score} bestScore={bestScore} />
+        <main className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-gutter-mobile md:gap-space-sm max-w-7xl mx-auto w-full transition-all duration-200">
           {imagesData.map((image) => (
             <Card
               key={image.id}
@@ -89,9 +132,9 @@ function Game() {
               addScore={() => addScore(image)}
             />
           ))}
-        </div>
-      </main>
-    </>
+        </main>
+      </div>{" "}
+    </div>
   );
 }
 
