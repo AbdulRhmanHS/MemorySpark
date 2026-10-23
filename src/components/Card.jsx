@@ -13,6 +13,7 @@ export default function Card({ imageUrl, imageTitle, shuffle, addScore }) {
           <img
             src={imageUrl}
             className="w-56 aspect-square overflow-hidden rounded-lg bg-surface-container-lowest/80 flex items-center justify-center relative mb-space-sm"
+            draggable="false"
           />
           <p className="font-label-lg text-label-lg text-on-surface group-hover:text-primary-fixed transition-colors tracking-wide">
             {imageTitle}
