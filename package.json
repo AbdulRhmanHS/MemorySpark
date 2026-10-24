@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --open google-chrome",
     "build": "vite build",
+    "deploy": "git push origin --delete gh-pages && npm run build && git add dist -f && git commit -m \"${npm_config_msg:-Deployment commit}\" && git subtree push --prefix dist origin gh-pages --force && git reset HEAD~1 && rm -rf dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
